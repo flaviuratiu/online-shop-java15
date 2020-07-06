@@ -56,17 +56,20 @@ public class ProductService {
     }
 
     public Page<Product> getProducts(GetProductsRequest request, Pageable pageable) {
-        if (request.getPartialName() != null && request.getMinimumQuantity() != null) {
+//        if (request.getPartialName() != null && request.getMinimumQuantity() != null) {
+//
+//            return productRepository.findByNameContainingAndQuantityGreaterThanEqual(
+//                    request.getPartialName(), request.getMinimumQuantity(), pageable);
+//
+//        } else if (request.getPartialName() != null) {
+//
+//            return productRepository.findByNameContaining(request.getPartialName(), pageable);
+//        } else {
+//            return productRepository.findAll(pageable);
+//        }
 
-            return productRepository.findByNameContainingAndQuantityGreaterThanEqual(
-                    request.getPartialName(), request.getMinimumQuantity(), pageable);
-
-        } else if (request.getPartialName() != null) {
-
-            return productRepository.findByNameContaining(request.getPartialName(), pageable);
-        } else {
-            return productRepository.findAll(pageable);
-        }
+        return productRepository.findByOptionalCriteria(
+                request.getPartialName(), request.getMinimumQuantity(), pageable);
     }
 
     public Product updateProduct(long id, SaveProductRequest request ) {
