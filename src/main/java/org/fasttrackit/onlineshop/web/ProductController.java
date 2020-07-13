@@ -2,8 +2,8 @@ package org.fasttrackit.onlineshop.web;
 
 import org.fasttrackit.onlineshop.domain.Product;
 import org.fasttrackit.onlineshop.service.ProductService;
-import org.fasttrackit.onlineshop.transfer.GetProductsRequest;
-import org.fasttrackit.onlineshop.transfer.SaveProductRequest;
+import org.fasttrackit.onlineshop.transfer.product.GetProductsRequest;
+import org.fasttrackit.onlineshop.transfer.product.SaveProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
