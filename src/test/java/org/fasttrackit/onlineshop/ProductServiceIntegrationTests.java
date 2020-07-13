@@ -3,6 +3,7 @@ package org.fasttrackit.onlineshop;
 import org.fasttrackit.onlineshop.domain.Product;
 import org.fasttrackit.onlineshop.exception.ResourceNotFoundException;
 import org.fasttrackit.onlineshop.service.ProductService;
+import org.fasttrackit.onlineshop.steps.ProductTestSteps;
 import org.fasttrackit.onlineshop.transfer.product.GetProductsRequest;
 import org.fasttrackit.onlineshop.transfer.product.SaveProductRequest;
 import org.junit.jupiter.api.Assertions;
@@ -26,9 +27,12 @@ class ProductServiceIntegrationTests {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ProductTestSteps productTestSteps;
+
     @Test
     void createProduct_whenValidRequest_thenReturnCreatedProduct() {
-        createProduct();
+        productTestSteps.createProduct();
     }
 
     @Test
@@ -44,7 +48,7 @@ class ProductServiceIntegrationTests {
 
     @Test
     void getProduct_whenExistingProduct_thenReturnProduct() {
-        Product product = createProduct();
+        Product product = productTestSteps.createProduct();
 
         Product response = productService.getProduct(product.getId());
 
@@ -65,7 +69,7 @@ class ProductServiceIntegrationTests {
 
     @Test
     void getProducts_whenOneExistingProduct_thenReturnPageOfOneProduct() {
-        Product product = createProduct();
+        Product product = productTestSteps.createProduct();
 
         Page<Product> productsPage = productService.getProducts(new GetProductsRequest(), PageRequest.of(0, 1000));
 
@@ -76,7 +80,7 @@ class ProductServiceIntegrationTests {
 
     @Test
     void updateProduct_whenValidRequest_thenReturnUpdatedProduct() {
-        Product product = createProduct();
+        Product product = productTestSteps.createProduct();
 
         SaveProductRequest request = new SaveProductRequest();
         request.setName(product.getName() + " Updated");
@@ -94,7 +98,7 @@ class ProductServiceIntegrationTests {
 
     @Test
     void deleteProduct_whenExistingProduct_thenProductDoesNotExistAnymore() {
-        Product product = createProduct();
+        Product product = productTestSteps.createProduct();
 
         productService.deleteProduct(product.getId());
 
@@ -102,21 +106,4 @@ class ProductServiceIntegrationTests {
                 () -> productService.getProduct(product.getId()));
     }
 
-    private Product createProduct() {
-        SaveProductRequest request = new SaveProductRequest();
-        request.setName("Phone");
-        request.setPrice(500);
-        request.setQuantity(1000);
-
-        Product product = productService.createProduct(request);
-
-        // assertions
-        assertThat(product, notNullValue());
-        assertThat(product.getId(), greaterThan(0L));
-        assertThat(product.getName(), is(request.getName()));
-        assertThat(product.getPrice(), is(request.getPrice()));
-        assertThat(product.getQuantity(), is(request.getQuantity()));
-
-        return product;
-    }
 }
