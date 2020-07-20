@@ -7,11 +7,14 @@ import org.fasttrackit.onlineshop.steps.ProductTestSteps;
 import org.fasttrackit.onlineshop.steps.UserTestSteps;
 import org.fasttrackit.onlineshop.transfer.cart.AddProductsToCartRequest;
 import org.fasttrackit.onlineshop.transfer.cart.CartResponse;
+import org.fasttrackit.onlineshop.transfer.product.ProductResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -34,7 +37,7 @@ public class CartServiceIntegrationTests {
     public void addProductsToCart_whenNewUser_thenCreateCartForUser() {
         User user = userTestSteps.createUser();
 
-        Product product = productTestSteps.createProduct();
+        ProductResponse product = productTestSteps.createProduct();
 
         AddProductsToCartRequest request = new AddProductsToCartRequest();
         request.setProductIds(Collections.singletonList(product.getId()));
